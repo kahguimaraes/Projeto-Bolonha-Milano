@@ -1,0 +1,19 @@
+@startuml
+
+title Bolonha e Milano - Etapa 1
+
+artifact "main.py" as Main
+
+class Menu {
+    - _em_execucao: bool
+    + __init__()
+    + executar(): None
+    - exibir_opcoes(): None
+    - ler_opcao(): int
+    - processar_opcao(opcao: int): None
+    - exibir_sobre(): None
+}
+
+Main ..> Menu : cria e usa
+
+@enduml
