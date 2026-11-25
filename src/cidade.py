@@ -7,6 +7,8 @@ class Cidade:
     SERVOS_INICIAIS = 200
     TAXA_IMPOSTO_INICIAL = 10
     NIVEL_JUSTICA_INICIAL = "Moderada"
+    SOLDADOS_INICIAIS = 0
+    CONSTRUCOES_INICIAIS = 0
 
     def __init__(self, nome, dono):
         self._nome = nome
@@ -18,6 +20,8 @@ class Cidade:
         self._servos = self.SERVOS_INICIAIS
         self._taxa_imposto = self.TAXA_IMPOSTO_INICIAL
         self._nivel_justica = self.NIVEL_JUSTICA_INICIAL
+        self._soldados = self.SOLDADOS_INICIAIS
+        self._construcoes = self.CONSTRUCOES_INICIAIS
 
     # Metodos de consulta
     def get_nome(self):
@@ -40,6 +44,12 @@ class Cidade:
 
     def get_servos(self):
         return self._servos
+
+    def get_soldados(self):
+        return self._soldados
+
+    def get_construcoes(self):
+        return self._construcoes
 
     # Configuracoes do governo
     def get_taxa_imposto(self):
@@ -105,6 +115,30 @@ class Cidade:
         self._servos -= qtd
         return True
 
+    # Controle de soldados
+    def adicionar_soldados(self, qtd):
+        if qtd > 0:
+            self._soldados += qtd
+
+    def remover_soldados(self, qtd):
+        if qtd < 0 or qtd > self._soldados:
+            return False
+
+        self._soldados -= qtd
+        return True
+
+    # Controle de construcoes
+    def adicionar_construcoes(self, qtd):
+        if qtd > 0:
+            self._construcoes += qtd
+
+    def remover_construcoes(self, qtd):
+        if qtd < 0 or qtd > self._construcoes:
+            return False
+
+        self._construcoes -= qtd
+        return True
+
     # Mostra o status da cidade
     def exibir_status(self):
         print("\n===== STATUS DA CIDADE =====")
@@ -118,3 +152,5 @@ class Cidade:
         print(f"Servos: {self._servos}")
         print(f"Taxa de imposto: {self._taxa_imposto}%")
         print(f"Nivel de justica: {self._nivel_justica}")
+        print(f"Soldados: {self._soldados}")
+        print(f"Construcoes: {self._construcoes}")

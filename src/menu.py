@@ -3,6 +3,7 @@ from cidade import Cidade
 from mercado import Mercado
 from agricultura import Agricultura
 from governo import Governo
+from construcoes import Construcoes
 
 
 class Menu:
@@ -14,6 +15,7 @@ class Menu:
         self._mercado = Mercado()
         self._agricultura = Agricultura()
         self._governo = Governo()
+        self._construcoes = Construcoes()
 
     def executar(self):
         while self._em_execucao:
@@ -28,7 +30,8 @@ class Menu:
         print("3 - Mercado")
         print("4 - Agricultura")
         print("5 - Governo")
-        print("6 - Sobre o jogo")
+        print("6 - Construcoes")
+        print("7 - Sobre o jogo")
         print("0 - Sair")
 
     def ler_opcao(self):
@@ -54,6 +57,9 @@ class Menu:
             self.abrir_governo()
 
         elif opcao == 6:
+            self.abrir_construcoes()
+
+        elif opcao == 7:
             self.exibir_sobre()
 
         elif opcao == 0:
@@ -295,6 +301,59 @@ class Menu:
             print("Nivel de justica atualizado!")
         else:
             print("Nivel de justica invalido!")
+
+    # CONSTRUCOES
+    def abrir_construcoes(self):
+        if self._cidade is None:
+            print("Inicie um jogo primeiro!")
+            return
+
+        while True:
+            print("\n===== CONSTRUCOES =====")
+            print(f"Florins: {self._cidade.get_florins()}")
+            print(f"Servos: {self._cidade.get_servos()}")
+            print(f"Soldados: {self._cidade.get_soldados()}")
+            print(f"Construcoes: {self._cidade.get_construcoes()}")
+
+            print("1 - Recrutar soldados")
+            print("2 - Construir")
+            print("0 - Voltar")
+
+            opcao = self.ler_opcao()
+
+            if opcao == 1:
+                self.recrutar_soldados()
+
+            elif opcao == 2:
+                self.construir()
+
+            elif opcao == 0:
+                break
+
+            else:
+                print("Opcao invalida!")
+
+    def recrutar_soldados(self):
+        print("Custo por soldado: 5 florins e 1 servo.")
+
+        qtd = self.ler_quantidade()
+
+        if self._construcoes.recrutar_soldados(self._cidade, qtd):
+            print("Recrutamento realizado com sucesso!")
+            print(f"Soldados recrutados: {qtd}")
+        else:
+            print("Quantidade invalida ou recursos insuficientes!")
+
+    def construir(self):
+        print("Custo por construcao: 20 florins.")
+
+        qtd = self.ler_quantidade()
+
+        if self._construcoes.construir(self._cidade, qtd):
+            print("Construcao realizada com sucesso!")
+            print(f"Edificios construidos: {qtd}")
+        else:
+            print("Quantidade invalida ou saldo insuficiente!")
 
     def exibir_sobre(self):
         print("\nBolonha e Milano")
