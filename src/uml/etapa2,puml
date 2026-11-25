@@ -1,0 +1,38 @@
+@startuml
+
+artifact "main.py" as Main
+
+class Menu {
+    - _em_execucao: bool
+    - _jogador: Jogador
+    - _cidade: Cidade
+    + executar()
+    - exibir_opcoes()
+    - ler_opcao()
+    - processar_opcao()
+    - iniciar_novo_jogo()
+    - exibir_status()
+    - exibir_sobre()
+}
+
+class Jogador {
+    - _nome: str
+    - _titulo: str
+    + get_nome()
+    + get_titulo()
+}
+
+class Cidade {
+    - _nome: str
+    - _dono: Jogador
+    - _ano_atual: int
+    + avancar_ano()
+    + exibir_status()
+}
+
+Main ..> Menu
+Menu --> Jogador
+Menu --> Cidade
+Cidade --> "1" Jogador : dono
+
+@enduml
