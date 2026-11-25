@@ -1,14 +1,35 @@
 class Jogador:
 
-    # Construtor do jogador
+    TITULOS = [
+        "Cavaleiro",
+        "Barão",
+        "Conde",
+        "Marquês",
+        "Duque",
+        "Rei/Rainha"
+    ]
+
     def __init__(self, nome):
         self._nome = nome
-        self._titulo = "Cavaleiro"
+        self._nivel_titulo = 0
 
-    # Retorna o nome do jogador
     def get_nome(self):
         return self._nome
 
-    # Retorna o titulo de nobreza
     def get_titulo(self):
-        return self._titulo
+        return self.TITULOS[self._nivel_titulo]
+
+    def get_nivel_titulo(self):
+        return self._nivel_titulo
+
+    # Promove o jogador em um nivel
+    def promover(self):
+        if self.eh_monarca():
+            return False
+
+        self._nivel_titulo += 1
+        return True
+
+    # Verifica se atingiu o ultimo titulo
+    def eh_monarca(self):
+        return self._nivel_titulo == len(self.TITULOS) - 1

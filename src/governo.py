@@ -5,12 +5,15 @@ class Governo:
     MULTIPLICADOR_MODERADA = 1.0
     MULTIPLICADOR_SEVERA = 1.3
 
-    # Calcula e arrecada os impostos
     def arrecadar_impostos(self, cidade):
 
+        # Permite apenas uma arrecadacao por ano
+        if cidade.is_impostos_arrecadados():
+            return -1
+
         base = (
-            cidade.get_servos() *
-            cidade.get_taxa_imposto() // 100
+            cidade.get_servos()
+            * cidade.get_taxa_imposto() // 100
         )
 
         multiplicador = self.multiplicador_para(
@@ -21,9 +24,10 @@ class Governo:
 
         cidade.adicionar_florins(arrecadado)
 
+        cidade.marcar_impostos_arrecadados()
+
         return arrecadado
 
-    # Define a taxa de imposto
     def definir_taxa_imposto(self, cidade, taxa):
 
         if not 0 <= taxa <= self.TAXA_MAXIMA:
@@ -33,7 +37,6 @@ class Governo:
 
         return True
 
-    # Define o nivel de justica
     def definir_justica(self, cidade, nivel):
 
         nivel = nivel.strip().capitalize()
@@ -45,7 +48,6 @@ class Governo:
 
         return True
 
-    # Retorna o multiplicador de justica
     def multiplicador_para(self, nivel):
 
         if nivel == "Justa":

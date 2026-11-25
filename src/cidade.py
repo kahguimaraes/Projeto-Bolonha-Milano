@@ -23,7 +23,10 @@ class Cidade:
         self._soldados = self.SOLDADOS_INICIAIS
         self._construcoes = self.CONSTRUCOES_INICIAIS
 
-    # Metodos de consulta
+        # Controle das acoes anuais
+        self._colheita_feita = False
+        self._impostos_arrecadados = False
+
     def get_nome(self):
         return self._nome
 
@@ -51,7 +54,6 @@ class Cidade:
     def get_construcoes(self):
         return self._construcoes
 
-    # Configuracoes do governo
     def get_taxa_imposto(self):
         return self._taxa_imposto
 
@@ -64,8 +66,23 @@ class Cidade:
     def set_nivel_justica(self, nivel):
         self._nivel_justica = nivel
 
+    # Avanca o ano e libera as acoes novamente
     def avancar_ano(self):
         self._ano_atual += 1
+        self._colheita_feita = False
+        self._impostos_arrecadados = False
+
+    def is_colheita_feita(self):
+        return self._colheita_feita
+
+    def marcar_colheita_feita(self):
+        self._colheita_feita = True
+
+    def is_impostos_arrecadados(self):
+        return self._impostos_arrecadados
+
+    def marcar_impostos_arrecadados(self):
+        self._impostos_arrecadados = True
 
     # Controle de florins
     def adicionar_florins(self, qtd):
@@ -103,7 +120,7 @@ class Cidade:
         self._graos -= qtd
         return True
 
-    # Controle da populacao
+    # Controle de servos
     def adicionar_servos(self, qtd):
         if qtd > 0:
             self._servos += qtd
@@ -139,7 +156,7 @@ class Cidade:
         self._construcoes -= qtd
         return True
 
-    # Mostra o status da cidade
+    # Exibe os dados da cidade
     def exibir_status(self):
         print("\n===== STATUS DA CIDADE =====")
         print(f"Cidade: {self._nome}")
@@ -148,9 +165,15 @@ class Cidade:
         print(f"Ano atual: {self._ano_atual}")
         print(f"Florins: {self._florins}")
         print(f"Terras: {self._terras} hectares")
-        print(f"Graos: {self._graos} unidades")
+        print(f"Graos: {self._graos}")
         print(f"Servos: {self._servos}")
         print(f"Taxa de imposto: {self._taxa_imposto}%")
         print(f"Nivel de justica: {self._nivel_justica}")
         print(f"Soldados: {self._soldados}")
         print(f"Construcoes: {self._construcoes}")
+
+        colheita = "Sim" if self._colheita_feita else "Nao"
+        impostos = "Sim" if self._impostos_arrecadados else "Nao"
+
+        print(f"Colheita realizada: {colheita}")
+        print(f"Impostos arrecadados: {impostos}")

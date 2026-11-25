@@ -7,8 +7,11 @@ class Agricultura:
     PERCENTUAL_MINIMO = 20
     PERCENTUAL_MAXIMO = 80
 
-    # Processa a colheita
     def processar_colheita(self, cidade):
+
+        # Permite apenas uma colheita por ano
+        if cidade.is_colheita_feita():
+            return -1
 
         hectares = min(
             cidade.get_terras(),
@@ -17,7 +20,6 @@ class Agricultura:
 
         sementes = hectares // 2
 
-        # Ajusta a plantacao se faltarem sementes
         if sementes > cidade.get_graos():
             sementes = cidade.get_graos()
             hectares = sementes * 2
@@ -28,6 +30,8 @@ class Agricultura:
 
         cidade.adicionar_graos(producao)
 
+        cidade.marcar_colheita_feita()
+
         print("\n===== RESULTADO DA COLHEITA =====")
         print(f"Hectares cultivados: {hectares}")
         print(f"Sementes utilizadas: {sementes}")
@@ -36,7 +40,6 @@ class Agricultura:
 
         return hectares
 
-    # Distribui alimentos para a populacao
     def distribuir_alimentos(self, cidade, percentual):
 
         if not self.PERCENTUAL_MINIMO <= percentual <= self.PERCENTUAL_MAXIMO:
@@ -54,8 +57,8 @@ class Agricultura:
 
         if alimento >= necessidade:
             crescimento = (
-                cidade.get_servos() *
-                self.CRESCIMENTO_PERCENTUAL // 100
+                cidade.get_servos()
+                * self.CRESCIMENTO_PERCENTUAL // 100
             )
 
             cidade.adicionar_servos(crescimento)
