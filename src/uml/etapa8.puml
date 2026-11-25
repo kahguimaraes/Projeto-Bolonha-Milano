@@ -1,0 +1,219 @@
+@startuml
+
+title Bolonha e Milano - Etapa 8
+
+artifact "main.py" as Main
+
+class Menu {
+    - _em_execucao: bool
+    - _partida: Partida
+    - _cidade: Cidade
+    - _mercado: Mercado
+    - _agricultura: Agricultura
+    - _governo: Governo
+    - _construcoes: Construcoes
+    - _nobreza: Nobreza
+    + executar()
+    - exibir_opcoes()
+    - ler_opcao(): int
+    - ler_quantidade(): int
+    - ler_inteiro(mensagem): int
+    - exigir_jogo_em_andamento(mensagem): bool
+    - processar_opcao(opcao)
+    - iniciar_novo_jogo()
+    - exibir_status()
+    - abrir_mercado()
+    - comprar_graos()
+    - vender_graos()
+    - comprar_terras()
+    - vender_terras()
+    - abrir_agricultura()
+    - colher()
+    - distribuir_alimentos()
+    - abrir_governo()
+    - arrecadar_impostos()
+    - definir_taxa_imposto()
+    - definir_justica()
+    - abrir_construcoes()
+    - recrutar_soldados()
+    - construir()
+    - encerrar_turno()
+    - exibir_classificacao()
+    - encerrar_partida()
+    - exibir_sobre()
+}
+
+class Jogador {
+    {static} TITULOS: list
+    - _nome: str
+    - _nivel_titulo: int
+    + get_nome(): str
+    + get_titulo(): str
+    + get_nivel_titulo(): int
+    + promover(): bool
+    + eh_monarca(): bool
+}
+
+class Cidade {
+    - _nome: str
+    - _dono: Jogador
+    - _ano_atual: int
+    - _florins: int
+    - _terras: int
+    - _graos: int
+    - _servos: int
+    - _taxa_imposto: int
+    - _nivel_justica: str
+    - _soldados: int
+    - _construcoes: int
+    - _colheita_feita: bool
+    - _impostos_arrecadados: bool
+    + get_nome()
+    + get_dono()
+    + get_ano_atual()
+    + get_florins()
+    + get_terras()
+    + get_graos()
+    + get_servos()
+    + get_soldados()
+    + get_construcoes()
+    + get_taxa_imposto()
+    + set_taxa_imposto(taxa)
+    + get_nivel_justica()
+    + set_nivel_justica(nivel)
+    + avancar_ano()
+    + is_colheita_feita(): bool
+    + marcar_colheita_feita()
+    + is_impostos_arrecadados(): bool
+    + marcar_impostos_arrecadados()
+    + adicionar_florins(qtd)
+    + remover_florins(qtd): bool
+    + adicionar_terras(qtd)
+    + remover_terras(qtd): bool
+    + adicionar_graos(qtd)
+    + remover_graos(qtd): bool
+    + adicionar_servos(qtd)
+    + remover_servos(qtd): bool
+    + adicionar_soldados(qtd)
+    + remover_soldados(qtd): bool
+    + adicionar_construcoes(qtd)
+    + remover_construcoes(qtd): bool
+    + exibir_status()
+}
+
+class Mercado {
+    {static} PRECO_GRAO: int = 2
+    {static} PRECO_TERRA: int = 1
+    + get_preco_grao()
+    + get_preco_terra()
+    + comprar_graos(cidade, qtd): bool
+    + vender_graos(cidade, qtd): bool
+    + comprar_terras(cidade, qtd): bool
+    + vender_terras(cidade, qtd): bool
+}
+
+class Agricultura {
+    {static} HECTARES_POR_SERVO: int = 5
+    {static} RENDIMENTO_POR_HECTARE: int = 2
+    {static} SERVOS_POR_GRAO: int = 5
+    {static} CRESCIMENTO_PERCENTUAL: int = 5
+    {static} PERCENTUAL_MINIMO: int = 20
+    {static} PERCENTUAL_MAXIMO: int = 80
+    + processar_colheita(cidade): int
+    + distribuir_alimentos(cidade, percentual): bool
+}
+
+class Governo {
+    {static} TAXA_MAXIMA: int = 50
+    {static} MULTIPLICADOR_JUSTA: float = 0.8
+    {static} MULTIPLICADOR_MODERADA: float = 1.0
+    {static} MULTIPLICADOR_SEVERA: float = 1.3
+    + arrecadar_impostos(cidade): int
+    + definir_taxa_imposto(cidade, taxa): bool
+    + definir_justica(cidade, nivel): bool
+    + multiplicador_para(nivel): float
+}
+
+class Construcoes {
+    {static} PRECO_SOLDADO: int = 5
+    {static} SERVOS_POR_SOLDADO: int = 1
+    {static} PRECO_CONSTRUCAO: int = 20
+    + get_preco_soldado(): int
+    + get_preco_construcao(): int
+    + recrutar_soldados(cidade, qtd): bool
+    + construir(cidade, qtd): bool
+}
+
+class Nobreza {
+    {static} PESO_CONSTRUCAO: int = 10
+    {static} PESO_SOLDADO: int = 2
+    {static} PESO_SERVO: int = 1
+    {static} HECTARES_POR_PONTO: int = 100
+    {static} PRESTIGIO_MINIMO: list
+    + calcular_prestigio(cidade): int
+    + prestigio_para_proximo_titulo(jogador): int
+    + verificar_promocao(cidade): bool
+}
+
+class Partida {
+    {static} MAXIMO_JOGADORES: int = 4
+    {static} ANO_FINAL: int = 1410
+    - _cidades: list
+    - _indice_atual: int
+    + adicionar_cidade(cidade): bool
+    + get_cidades(): list
+    + get_cidade_atual(): Cidade
+    + get_ano_atual(): int
+    + get_ano_final(): int
+    + passar_turno(): bool
+    + encerrar_ano(nobreza): list
+    + terminou(): bool
+    + determinar_vencedor(nobreza): Cidade
+}
+
+class Testes {
+    {static} aprovados: int
+    {static} reprovados: int
+    {static} + main()
+    {static} + verificar(descricao, condicao)
+    {static} + nova_cidade(): Cidade
+    {static} + testar_cidade()
+    {static} + testar_mercado()
+    {static} + testar_agricultura()
+    {static} + testar_governo()
+    {static} + testar_construcoes()
+    {static} + testar_jogador_e_nobreza()
+    {static} + testar_partida()
+}
+
+Main ..> Menu
+
+Menu --> Partida
+Menu --> Cidade : vez atual
+Menu --> Mercado
+Menu --> Agricultura
+Menu --> Governo
+Menu --> Construcoes
+Menu --> Nobreza
+
+Partida --> "1..4" Cidade
+Cidade --> Jogador : dono
+
+Mercado ..> Cidade
+Agricultura ..> Cidade
+Governo ..> Cidade
+Construcoes ..> Cidade
+Nobreza ..> Cidade
+Nobreza ..> Jogador
+Partida ..> Nobreza
+
+Testes ..> Cidade : testa
+Testes ..> Jogador : testa
+Testes ..> Mercado : testa
+Testes ..> Agricultura : testa
+Testes ..> Governo : testa
+Testes ..> Construcoes : testa
+Testes ..> Nobreza : testa
+Testes ..> Partida : testa
+
+@enduml
