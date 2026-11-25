@@ -2,6 +2,7 @@ from jogador import Jogador
 from cidade import Cidade
 from mercado import Mercado
 from agricultura import Agricultura
+from governo import Governo
 
 
 class Menu:
@@ -12,6 +13,7 @@ class Menu:
         self._cidade = None
         self._mercado = Mercado()
         self._agricultura = Agricultura()
+        self._governo = Governo()
 
     def executar(self):
         while self._em_execucao:
@@ -25,7 +27,8 @@ class Menu:
         print("2 - Ver status da cidade")
         print("3 - Mercado")
         print("4 - Agricultura")
-        print("5 - Sobre o jogo")
+        print("5 - Governo")
+        print("6 - Sobre o jogo")
         print("0 - Sair")
 
     def ler_opcao(self):
@@ -48,6 +51,9 @@ class Menu:
             self.abrir_agricultura()
 
         elif opcao == 5:
+            self.abrir_governo()
+
+        elif opcao == 6:
             self.exibir_sobre()
 
         elif opcao == 0:
@@ -211,6 +217,84 @@ class Menu:
             print("Alimentos distribuidos com sucesso!")
         else:
             print("Percentual invalido!")
+
+    # GOVERNO
+    def abrir_governo(self):
+        if self._cidade is None:
+            print("Inicie um jogo primeiro!")
+            return
+
+        while True:
+            print("\n===== GOVERNO =====")
+            print(f"Florins: {self._cidade.get_florins()}")
+            print(f"Taxa de imposto: {self._cidade.get_taxa_imposto()}%")
+            print(f"Nivel de justica: {self._cidade.get_nivel_justica()}")
+
+            print("1 - Arrecadar impostos")
+            print("2 - Definir taxa de imposto")
+            print("3 - Definir nivel de justica")
+            print("0 - Voltar")
+
+            opcao = self.ler_opcao()
+
+            if opcao == 1:
+                self.arrecadar_impostos()
+
+            elif opcao == 2:
+                self.definir_taxa_imposto()
+
+            elif opcao == 3:
+                self.definir_justica()
+
+            elif opcao == 0:
+                break
+
+            else:
+                print("Opcao invalida!")
+
+    def arrecadar_impostos(self):
+        arrecadado = self._governo.arrecadar_impostos(
+            self._cidade
+        )
+
+        print("\n===== ARRECADACAO DE IMPOSTOS =====")
+        print(f"Florins arrecadados: {arrecadado}")
+        print(f"Saldo atual: {self._cidade.get_florins()}")
+
+    def definir_taxa_imposto(self):
+        print("Informe uma taxa entre 0 e 50.")
+
+        try:
+            taxa = int(input("Nova taxa de imposto: "))
+        except ValueError:
+            print("Taxa invalida!")
+            return
+
+        if self._governo.definir_taxa_imposto(self._cidade, taxa):
+            print("Taxa de imposto atualizada!")
+        else:
+            print("Taxa invalida!")
+
+    def definir_justica(self):
+        print("\n===== NIVEIS DE JUSTICA =====")
+        print("1 - Justa")
+        print("2 - Moderada")
+        print("3 - Severa")
+
+        opcao = self.ler_opcao()
+
+        niveis = {
+            1: "Justa",
+            2: "Moderada",
+            3: "Severa"
+        }
+
+        nivel = niveis.get(opcao, "")
+
+        if self._governo.definir_justica(self._cidade, nivel):
+            print("Nivel de justica atualizado!")
+        else:
+            print("Nivel de justica invalido!")
 
     def exibir_sobre(self):
         print("\nBolonha e Milano")

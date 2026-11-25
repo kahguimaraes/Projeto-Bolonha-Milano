@@ -1,4 +1,3 @@
-
 class Cidade:
 
     ANO_INICIAL = 1400
@@ -6,6 +5,8 @@ class Cidade:
     TERRAS_INICIAIS = 10000
     GRAOS_INICIAIS = 500
     SERVOS_INICIAIS = 200
+    TAXA_IMPOSTO_INICIAL = 10
+    NIVEL_JUSTICA_INICIAL = "Moderada"
 
     def __init__(self, nome, dono):
         self._nome = nome
@@ -15,6 +16,8 @@ class Cidade:
         self._terras = self.TERRAS_INICIAIS
         self._graos = self.GRAOS_INICIAIS
         self._servos = self.SERVOS_INICIAIS
+        self._taxa_imposto = self.TAXA_IMPOSTO_INICIAL
+        self._nivel_justica = self.NIVEL_JUSTICA_INICIAL
 
     # Metodos de consulta
     def get_nome(self):
@@ -37,6 +40,19 @@ class Cidade:
 
     def get_servos(self):
         return self._servos
+
+    # Configuracoes do governo
+    def get_taxa_imposto(self):
+        return self._taxa_imposto
+
+    def set_taxa_imposto(self, taxa):
+        self._taxa_imposto = taxa
+
+    def get_nivel_justica(self):
+        return self._nivel_justica
+
+    def set_nivel_justica(self, nivel):
+        self._nivel_justica = nivel
 
     def avancar_ano(self):
         self._ano_atual += 1
@@ -100,3 +116,5 @@ class Cidade:
         print(f"Terras: {self._terras} hectares")
         print(f"Graos: {self._graos} unidades")
         print(f"Servos: {self._servos}")
+        print(f"Taxa de imposto: {self._taxa_imposto}%")
+        print(f"Nivel de justica: {self._nivel_justica}")
