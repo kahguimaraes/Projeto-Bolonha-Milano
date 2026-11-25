@@ -1,6 +1,7 @@
 from jogador import Jogador
 from cidade import Cidade
 from mercado import Mercado
+from agricultura import Agricultura
 
 
 class Menu:
@@ -10,6 +11,7 @@ class Menu:
         self._jogador = None
         self._cidade = None
         self._mercado = Mercado()
+        self._agricultura = Agricultura()
 
     def executar(self):
         while self._em_execucao:
@@ -22,7 +24,8 @@ class Menu:
         print("1 - Novo jogo")
         print("2 - Ver status da cidade")
         print("3 - Mercado")
-        print("4 - Sobre o jogo")
+        print("4 - Agricultura")
+        print("5 - Sobre o jogo")
         print("0 - Sair")
 
     def ler_opcao(self):
@@ -42,6 +45,9 @@ class Menu:
             self.abrir_mercado()
 
         elif opcao == 4:
+            self.abrir_agricultura()
+
+        elif opcao == 5:
             self.exibir_sobre()
 
         elif opcao == 0:
@@ -73,7 +79,7 @@ class Menu:
         else:
             self._cidade.exibir_status()
 
-    # Submenu do mercado
+    # MERCADO
     def abrir_mercado(self):
         if self._cidade is None:
             print("Inicie um jogo primeiro!")
@@ -154,6 +160,57 @@ class Menu:
             print("Venda realizada com sucesso!")
         else:
             print("Quantidade invalida ou terras insuficientes!")
+
+    # AGRICULTURA
+    def abrir_agricultura(self):
+        if self._cidade is None:
+            print("Inicie um jogo primeiro!")
+            return
+
+        while True:
+            print("\n===== AGRICULTURA =====")
+            print(f"Terras: {self._cidade.get_terras()}")
+            print(f"Servos: {self._cidade.get_servos()}")
+            print(f"Graos: {self._cidade.get_graos()}")
+
+            print("1 - Colher")
+            print("2 - Distribuir alimentos")
+            print("0 - Voltar")
+
+            opcao = self.ler_opcao()
+
+            if opcao == 1:
+                self.colher()
+
+            elif opcao == 2:
+                self.distribuir_alimentos()
+
+            elif opcao == 0:
+                break
+
+            else:
+                print("Opcao invalida!")
+
+    def colher(self):
+        self._agricultura.processar_colheita(self._cidade)
+
+    def distribuir_alimentos(self):
+        print("Informe um percentual entre 20 e 80.")
+
+        try:
+            percentual = int(input("Percentual: "))
+        except ValueError:
+            print("Percentual invalido!")
+            return
+
+        resultado = self._agricultura.distribuir_alimentos(
+            self._cidade, percentual
+        )
+
+        if resultado:
+            print("Alimentos distribuidos com sucesso!")
+        else:
+            print("Percentual invalido!")
 
     def exibir_sobre(self):
         print("\nBolonha e Milano")

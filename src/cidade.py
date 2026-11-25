@@ -1,9 +1,11 @@
+
 class Cidade:
 
     ANO_INICIAL = 1400
     FLORINS_INICIAIS = 1000
     TERRAS_INICIAIS = 10000
     GRAOS_INICIAIS = 500
+    SERVOS_INICIAIS = 200
 
     def __init__(self, nome, dono):
         self._nome = nome
@@ -12,6 +14,7 @@ class Cidade:
         self._florins = self.FLORINS_INICIAIS
         self._terras = self.TERRAS_INICIAIS
         self._graos = self.GRAOS_INICIAIS
+        self._servos = self.SERVOS_INICIAIS
 
     # Metodos de consulta
     def get_nome(self):
@@ -31,6 +34,9 @@ class Cidade:
 
     def get_graos(self):
         return self._graos
+
+    def get_servos(self):
+        return self._servos
 
     def avancar_ano(self):
         self._ano_atual += 1
@@ -71,6 +77,18 @@ class Cidade:
         self._graos -= qtd
         return True
 
+    # Controle da populacao
+    def adicionar_servos(self, qtd):
+        if qtd > 0:
+            self._servos += qtd
+
+    def remover_servos(self, qtd):
+        if qtd < 0 or qtd > self._servos:
+            return False
+
+        self._servos -= qtd
+        return True
+
     # Mostra o status da cidade
     def exibir_status(self):
         print("\n===== STATUS DA CIDADE =====")
@@ -81,3 +99,4 @@ class Cidade:
         print(f"Florins: {self._florins}")
         print(f"Terras: {self._terras} hectares")
         print(f"Graos: {self._graos} unidades")
+        print(f"Servos: {self._servos}")

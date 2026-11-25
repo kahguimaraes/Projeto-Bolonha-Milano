@@ -1,0 +1,96 @@
+@startuml
+
+title Bolonha e Milano - Etapa 4
+
+artifact "main.py" as Main
+
+class Menu {
+    - _em_execucao: bool
+    - _jogador: Jogador
+    - _cidade: Cidade
+    - _mercado: Mercado
+    - _agricultura: Agricultura
+    + executar()
+    - exibir_opcoes()
+    - ler_opcao()
+    - processar_opcao(opcao)
+    - iniciar_novo_jogo()
+    - exibir_status()
+    - abrir_mercado()
+    - ler_quantidade()
+    - comprar_graos()
+    - vender_graos()
+    - comprar_terras()
+    - vender_terras()
+    - abrir_agricultura()
+    - colher()
+    - distribuir_alimentos()
+    - exibir_sobre()
+}
+
+class Jogador {
+    - _nome: str
+    - _titulo: str
+    + get_nome()
+    + get_titulo()
+}
+
+class Cidade {
+    - _nome: str
+    - _dono: Jogador
+    - _ano_atual: int
+    - _florins: int
+    - _terras: int
+    - _graos: int
+    - _servos: int
+    + get_nome()
+    + get_dono()
+    + get_ano_atual()
+    + get_florins()
+    + get_terras()
+    + get_graos()
+    + get_servos()
+    + avancar_ano()
+    + adicionar_florins(qtd)
+    + remover_florins(qtd): bool
+    + adicionar_terras(qtd)
+    + remover_terras(qtd): bool
+    + adicionar_graos(qtd)
+    + remover_graos(qtd): bool
+    + adicionar_servos(qtd)
+    + remover_servos(qtd): bool
+    + exibir_status()
+}
+
+class Mercado {
+    {static} PRECO_GRAO: int = 2
+    {static} PRECO_TERRA: int = 1
+    + get_preco_grao()
+    + get_preco_terra()
+    + comprar_graos(cidade, qtd): bool
+    + vender_graos(cidade, qtd): bool
+    + comprar_terras(cidade, qtd): bool
+    + vender_terras(cidade, qtd): bool
+}
+
+class Agricultura {
+    {static} HECTARES_POR_SERVO: int = 5
+    {static} RENDIMENTO_POR_HECTARE: int = 2
+    {static} SERVOS_POR_GRAO: int = 5
+    {static} CRESCIMENTO_PERCENTUAL: int = 5
+    {static} PERCENTUAL_MINIMO: int = 20
+    {static} PERCENTUAL_MAXIMO: int = 80
+    + processar_colheita(cidade): int
+    + distribuir_alimentos(cidade, percentual): bool
+}
+
+Main ..> Menu
+Menu --> Jogador
+Menu --> Cidade
+Menu --> Mercado
+Menu --> Agricultura
+Cidade --> Jogador : dono
+Mercado ..> Cidade : usa
+Agricultura ..> Cidade : usa
+
+@enduml
